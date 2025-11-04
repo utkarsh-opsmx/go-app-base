@@ -1,8 +1,9 @@
-module github.com/OpsMx/go-app-base
+module github.com/utkarsh-opsmx/go-app-base
 
 go 1.19
 
 require (
+	github.com/OpsMx/go-app-base v0.0.24
 	github.com/stretchr/testify v1.8.4
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.48.0
 	go.opentelemetry.io/otel v1.23.1
