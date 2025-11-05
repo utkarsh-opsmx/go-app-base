@@ -19,15 +19,13 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/utkarsh-opsmx/go-app-base/util"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
-	//
-	//"github.com/OpsMx/go-app-base/httputil"
-	"github.com/OpsMx/go-app-base/util"
 )
 
 // ControllerManager checks the services available on the controller,
@@ -367,7 +365,7 @@ func (m *ControllerManager) getTLSClient() (*http.Client, error) {
 			MaxIdleConns:          100,
 			MaxIdleConnsPerHost:   20,
 			IdleConnTimeout:       30 * time.Second,
-			DisableKeepAlives:     true,
+			DisableKeepAlives:     false,
 			TLSHandshakeTimeout:   5 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
 		}
