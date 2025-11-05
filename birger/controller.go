@@ -375,5 +375,6 @@ func (m *ControllerManager) getTLSClient() (*http.Client, error) {
 			Timeout:   20 * time.Second,
 		}
 	}
+
 	return m.tlsClient, nil
 }
