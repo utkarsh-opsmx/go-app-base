@@ -238,6 +238,7 @@ func (m *ControllerManager) getTokenAndURL(s controllerService) (serviceUrl stri
 	}
 
 	client, err := m.getTLSClient()
+	defer client.CloseIdleConnections()
 	if err != nil {
 		return "", "", fmt.Errorf("making TLS client: %v", err)
 	}
@@ -259,7 +260,7 @@ func (m *ControllerManager) getTokenAndURL(s controllerService) (serviceUrl stri
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		client.CloseIdleConnections()
+		//client.CloseIdleConnections()
 		return "", "", fmt.Errorf("fetching service credentials: %v", err)
 	}
 	defer resp.Body.Close()
@@ -288,6 +289,7 @@ func (m *ControllerManager) getArgoServices() (map[string]controllerService, err
 	}
 
 	client, err := m.getTLSClient()
+	defer client.CloseIdleConnections()
 	if err != nil {
 		return map[string]controllerService{}, fmt.Errorf("making TLS client: %v", err)
 	}
@@ -299,7 +301,7 @@ func (m *ControllerManager) getArgoServices() (map[string]controllerService, err
 
 	resp, err := client.Do(req)
 	if err != nil {
-		client.CloseIdleConnections()
+		//client.CloseIdleConnections()
 		return map[string]controllerService{}, fmt.Errorf("fetching connected agents: %v", err)
 	}
 	defer resp.Body.Close()
@@ -364,8 +366,8 @@ func (m *ControllerManager) getTLSClient() (*http.Client, error) {
 			TLSClientConfig:       tlsConfig,
 			MaxIdleConns:          100,
 			MaxIdleConnsPerHost:   20,
-			IdleConnTimeout:       60 * time.Second,
-			DisableKeepAlives:     false,
+			IdleConnTimeout:       30 * time.Second,
+			DisableKeepAlives:     true,
 			TLSHandshakeTimeout:   5 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
 		}
